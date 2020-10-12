@@ -2,7 +2,7 @@ import sqlite3
 
 
 def get_items():
-    connection = sqlite3.connect("/home/bcarothe/mysite/todo.db")
+    connection = sqlite3.connect("todo.db")
     cursor = connection.cursor()
     cursor.execute("select * from todo")
     result = cursor.fetchall()
@@ -11,7 +11,7 @@ def get_items():
 
 
 def get_item(id):
-    connection = sqlite3.connect("/home/bcarothe/mysite/todo.db")
+    connection = sqlite3.connect("todo.db")
     cursor = connection.cursor()
     cursor.execute("select * from todo where id=?", (id,))
     result = cursor.fetchall()
@@ -20,7 +20,7 @@ def get_item(id):
 
 
 def update_status(id, value):
-    connection = sqlite3.connect("/home/bcarothe/mysite/todo.db")
+    connection = sqlite3.connect("todo.db")
     cursor = connection.cursor()
     cursor.execute("update todo set status=? where id=?", (value, id))
     connection.commit()
@@ -28,7 +28,7 @@ def update_status(id, value):
 
 
 def create_item(task, status):
-    connection = sqlite3.connect("/home/bcarothe/mysite/todo.db")
+    connection = sqlite3.connect("todo.db")
     cursor = connection.cursor()
     cursor.execute("insert into todo (task, status) values (?,?)", (task, status))
     id = cursor.lastrowid
@@ -38,7 +38,7 @@ def create_item(task, status):
 
 
 def update_item(id, task):
-    connection = sqlite3.connect("/home/bcarothe/mysite/todo.db")
+    connection = sqlite3.connect("todo.db")
     cursor = connection.cursor()
     cursor.execute("update todo set task=? where id=?", (task, id))
     connection.commit()
@@ -46,7 +46,7 @@ def update_item(id, task):
 
 
 def delete_item(id):
-    connection = sqlite3.connect("/home/bcarothe/mysite/todo.db")
+    connection = sqlite3.connect("todo.db")
     cursor = connection.cursor()
     cursor.execute("delete from todo where id=?", (id,))
     connection.commit()

@@ -20,7 +20,7 @@ else:
 @get('/')
 def get_show_list():
     result = get_items()
-    return template("/home/bcarothe/mysite/show_list", rows=result)
+    return template("show_list", rows=result)
 
 
 @get("/set_status/<id:int>/<value:int>")
@@ -31,7 +31,7 @@ def get_set_status(id, value):
 
 @get('/new_item')
 def get_new_item():
-    return template("/home/bcarothe/mysite/new_item")
+    return template("new_item")
 
 
 @post('/new_item')
