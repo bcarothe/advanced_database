@@ -2,7 +2,7 @@
 import os
 import sqlite3
 from bottle import get, post, template, request, redirect
-
+from storage import *
 
 # Are we executing at PythonAnywhere?
 ON_PYTHONANYWHERE = "PYTHONANYWHERE_DOMAIN" in os.environ
@@ -19,40 +19,45 @@ else:
 
 @get('/')
 def get_show_list():
-    connection = sqlite3.connect("todo.db")
-    cursor = connection.cursor()
-    cursor.execute("select * from todo")
-    result = cursor.fetchall()
-    cursor.close()
-    return template("show_list", rows=result)
+    result = get_items()
+    return template("/home/bcarothe/mysite/show_list", rows=result)
+
+
+@get("/set_status/<id:int>/<value:int>")
+def get_set_status(id, value):
+    update_status(id, value)
+    redirect("/")
 
 
 @get('/new_item')
 def get_new_item():
-    return template("new_item")
+    return template("/home/bcarothe/mysite/new_item")
 
 
 @post('/new_item')
 def post_new_item():
     new_item = request.forms.get("new_item").strip()
-    connection = sqlite3.connect("todo.db")
-    cursor = connection.cursor()
-    cursor.execute("insert into todo (task, status) values (?,?)", (new_item, 1))
-    # cursor.lastrowid
-    connection.commit()
-    cursor.close()
-    # return "The new item is [" + new_item + "]..."
+    create_item(new_item, 1)
+    redirect("/")
+
+
+@get('/update_item/<id:int>')
+def get_update_item(id):
+    result = get_item(id)
+    return template("update_item", row=result)
+
+
+@post('/update_item')
+def post_update_item():
+    id = int(request.forms.get("id").strip())
+    updated_item = request.forms.get("updated_item").strip()
+    update_item(id, updated_item)
     redirect("/")
 
 
 @get("/delete_item/<id:int>")
-def delete_item(id):
-    print("we want to delete ", id)
-    connection = sqlite3.connect("todo.db")
-    cursor = connection.cursor()
-    cursor.execute("delete from todo where id=?", (id,))
-    connection.commit()
-    cursor.close()
+def get_delete_item(id):
+    delete_item(id)
     redirect("/")
 
 
