@@ -1,6 +1,6 @@
-<p>Todo List</p>
+<p>Todo List - Experimental Version</p>
 <table border="1">
-    %for row in rows:
+%for row in rows:
     <tr>
         <td>{{row[0]}}</td>
         <td>
@@ -12,12 +12,11 @@
         %else:
             <a href="/set_status/{{row[0]}}/0">{{row[2]}}</a>
         %end
-        </td>
         <td>
             <a href="/delete_item/{{row[0]}}">DELETE</a>
         </td>
     </tr>
-    %end
+%end
 </table>
 <a href="/new_item">New Item...</a>
-<hr />
+<hr/>
